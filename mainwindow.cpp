@@ -37,6 +37,35 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
                  << query.value("status").toString() << query.value(4).toString();
     }
     
+    sql = "UPDATE user SET id = 2 WHERE id = 1";
+    
+    db.transaction();
+    
+    bool is_succuessful = query.exec(sql);
+    if (is_succuessful) {
+        qDebug() << "commit";
+        db.commit();
+    } else {
+        qDebug() << "rollback";
+        db.rollback();
+    }
+    
+    sql = "UPDATE user SET name = 'Tom999' WHERE id = 1";
+    
+    db.transaction();
+    
+    is_succuessful = query.exec(sql);
+    if (is_succuessful) {
+        qDebug() << "commit";
+        db.commit();
+    } else {
+        qDebug() << "rollback";
+        db.rollback();
+    }
+    
+    sql = "UPDATE user SET name = 'Tom1' WHERE id = 1";
+    query.exec(sql);
+    
     db.close();
 }
 
