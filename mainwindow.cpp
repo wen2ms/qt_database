@@ -2,6 +2,7 @@
 
 #include <QSqlDatabase>
 #include <QSqlError>
+#include <QSqlQuery>
 #include <QDebug>
 
 #include "./ui_mainwindow.h"
@@ -26,6 +27,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     } else {
         qDebug() << "Connect successfully!!!";
     }
+    
+    QSqlQuery query;
+    QString sql = "SELECT * FROM user";
+    
+    query.exec(sql);
+    while (query.next()) {
+        qDebug() << query.value(0).toInt() << query.value(1).toString() << query.value("age").toInt()
+                 << query.value("status").toString() << query.value(4).toString();
+    }
+    
+    db.close();
 }
 
 MainWindow::~MainWindow() {
